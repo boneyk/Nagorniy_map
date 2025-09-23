@@ -13,7 +13,8 @@
       rel="stylesheet"
     />
     <style>
-      html, body {
+      html,
+      body {
         height: 100%;
         margin: 0;
         padding: 0;
@@ -75,14 +76,34 @@
     </style>
   </head>
   <body>
-    <button class="btn btn-primary m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+    <button
+      class="btn btn-primary m-2"
+      type="button"
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasSidebar"
+      aria-controls="offcanvasSidebar"
+    >
       Выбор места
     </button>
 
-    <div class="offcanvas offcanvas-start offcanvas-fullscreen" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div
+      class="offcanvas offcanvas-start offcanvas-fullscreen"
+      data-bs-scroll="true"
+      data-bs-backdrop="true"
+      tabindex="-1"
+      id="offcanvasSidebar"
+      aria-labelledby="offcanvasSidebarLabel"
+    >
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Точки на карте</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
+          Точки на карте
+        </h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="offcanvas"
+          aria-label="Закрыть"
+        ></button>
       </div>
       <div class="offcanvas-body">
         <div id="menuList">
@@ -90,7 +111,7 @@
         </div>
         <div id="infoFrame">
           <h5 id="infoTitle"></h5>
-          <img id="infoImg" class="popup-img" src="" alt="">
+          <img id="infoImg" class="popup-img" src="" alt="" />
           <p id="infoDesc"></p>
           <button id="backBtn" class="btn btn-primary mt-2">← Назад</button>
         </div>
@@ -105,7 +126,7 @@
 
       function init() {
         const map = new ymaps.Map("map", {
-          center: [43.118136, 131.921370],
+          center: [43.118136, 131.92137],
           zoom: 18.5,
           controls: [],
         });
@@ -171,11 +192,15 @@
           ],
         ];
         paths.forEach((coords) => {
-          const line = new ymaps.Polyline(coords, {}, {
-            strokeColor: "rgba(0,0,0,0.6)", 
-            strokeWidth: 4,
-            strokeOpacity: 1,
-          });
+          const line = new ymaps.Polyline(
+            coords,
+            {},
+            {
+              strokeColor: "rgba(0,0,0,0.6)",
+              strokeWidth: 4,
+              strokeOpacity: 1,
+            }
+          );
           map.geoObjects.add(line);
         });
 
@@ -189,7 +214,7 @@
           [kafeCoords],
           {},
           {
-            fillColor: "rgba(255,0,0,0.6)", 
+            fillColor: "rgba(255,0,0,0.6)",
             strokeColor: "#FF0000",
             strokeWidth: 2,
           }
@@ -205,7 +230,12 @@
         ];
         const lakePolygon = new ymaps.Polygon(
           [lakeCoords],
-          {}, { fillColor: "rgba(0,191,255,0.6)", strokeColor: "#ffffff", strokeWidth: 0 }
+          {},
+          {
+            fillColor: "rgba(0,191,255,0.6)",
+            strokeColor: "#ffffff",
+            strokeWidth: 0,
+          }
         );
         map.geoObjects.add(kafePolygon);
         map.geoObjects.add(lakePolygon);
@@ -257,14 +287,26 @@
         const infoDesc = document.getElementById("infoDesc");
         const backBtn = document.getElementById("backBtn");
 
-        const offcanvasElement = document.getElementById('offcanvasSidebar');
-        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+        const offcanvasElement = document.getElementById("offcanvasSidebar");
+        const offcanvas =
+          bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
 
-        places.forEach(place => {
+        places.forEach((place) => {
           const placemark = new ymaps.Placemark(
             place.coords,
-            { balloonContentHeader: place.name, balloonContentBody: `<img class="popup-img" src="${place.img}"><p>${place.desc}</p>` },
-            { iconLayout: "default#image", iconImageHref: place.iconUrl, iconImageSize: [32,32], iconImageOffset: [-16,-32] }
+            {
+              balloonContentHeader: place.name,
+              balloonContentBody: `<img class="popup-img" src="${place.img}"><p>${place.desc}</p>`,
+            },
+            {
+              iconLayout: "default#image",
+              iconImageHref: place.iconUrl,
+              iconImageSize: [32, 32],
+              iconImageOffset: [-16, -32],
+              balloonOffset: [0, -32],
+              balloonAutoPan: true,
+              hideIconOnBalloonOpen: false 
+            }
           );
           map.geoObjects.add(placemark);
 
