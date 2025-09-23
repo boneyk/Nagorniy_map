@@ -2,32 +2,33 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Карта парка на Яндекс.Картах</title>
     <script
       src="https://api-maps.yandex.ru/2.1/?apikey=f1f1d7d7-cd6e-4883-b0d1-46ac439370d4&lang=ru_RU"
       type="text/javascript"
     ></script>
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
-      html,
-      body {
-        width: 100%;
+      html, body {
         height: 100%;
         margin: 0;
         padding: 0;
+      }
+
+      body {
         display: flex;
+        flex-direction: column;
       }
+
       #map {
-        flex: 1;
+        flex: 1 1 auto;
+        width: 100%;
       }
-      #sidebar {
-        width: 300px;
-        background: #f8f9fa;
-        border-left: 1px solid #ccc;
-        padding: 10px;
-        font-family: sans-serif;
-        /* overflow-y: auto; */
-      }
+
       .place-item {
         padding: 8px;
         margin: 5px 0;
@@ -47,46 +48,65 @@
         height: 20px;
       }
       .popup-img {
-        width: 200px;
+        width: 100%;
+        max-width: 200px;
         border-radius: 10px;
         margin-top: 5px;
       }
       #infoFrame {
         display: none;
       }
-      #backBtn {
-        margin-top: 10px;
-        padding: 6px 10px;
-        cursor: pointer;
-        border: none;
-        background: #007bff;
-        color: white;
-        border-radius: 5px;
+
+      @media (max-width: 767px) {
+        .offcanvas-fullscreen {
+          width: 100% !important;
+          max-width: 100% !important;
+          height: 100% !important;
+        }
+        .offcanvas .offcanvas-title {
+          font-size: 1.5rem;
+        }
+        .offcanvas-body p,
+        .offcanvas-body button,
+        .place-item {
+          font-size: 1.1rem;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="sidebar">
-      <div id="menuList">
-        <h3>Точки на карте</h3>
-        <div id="placesList"></div>
+    <button class="btn btn-primary m-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+      Выбор места
+    </button>
+
+    <div class="offcanvas offcanvas-start offcanvas-fullscreen" data-bs-scroll="true" data-bs-backdrop="true" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Точки на карте</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
       </div>
-      <div id="infoFrame">
-        <h3 id="infoTitle"></h3>
-        <img id="infoImg" class="popup-img" src="" alt="" />
-        <p id="infoDesc"></p>
-        <button id="backBtn">← Назад</button>
+      <div class="offcanvas-body">
+        <div id="menuList">
+          <div id="placesList"></div>
+        </div>
+        <div id="infoFrame">
+          <h5 id="infoTitle"></h5>
+          <img id="infoImg" class="popup-img" src="" alt="">
+          <p id="infoDesc"></p>
+          <button id="backBtn" class="btn btn-primary mt-2">← Назад</button>
+        </div>
       </div>
     </div>
+
     <div id="map"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       ymaps.ready(init);
 
       function init() {
         const map = new ymaps.Map("map", {
-          center: [43.118136, 131.922519],
-          zoom: 19,
+          center: [43.118136, 131.921370],
+          zoom: 18.5,
           controls: [],
         });
 
@@ -151,15 +171,11 @@
           ],
         ];
         paths.forEach((coords) => {
-          const line = new ymaps.Polyline(
-            coords,
-            {},
-            {
-              strokeColor: "rgba(0,0,0,0.6)", 
-              strokeWidth: 4, 
-              strokeOpacity: 1,
-            }
-          );
+          const line = new ymaps.Polyline(coords, {}, {
+            strokeColor: "rgba(0,0,0,0.6)", 
+            strokeWidth: 4,
+            strokeOpacity: 1,
+          });
           map.geoObjects.add(line);
         });
 
@@ -178,7 +194,6 @@
             strokeWidth: 2,
           }
         );
-
         const lakeCoords = [
           [43.11836, 131.921635],
           [43.118251, 131.921661],
@@ -190,14 +205,8 @@
         ];
         const lakePolygon = new ymaps.Polygon(
           [lakeCoords],
-          {},
-          {
-            fillColor: "rgba(0,191,255,0.6)", // голубой
-            strokeColor: "#ffffff",
-            strokeWidth: 0,
-          }
+          {}, { fillColor: "rgba(0,191,255,0.6)", strokeColor: "#ffffff", strokeWidth: 0 }
         );
-
         map.geoObjects.add(kafePolygon);
         map.geoObjects.add(lakePolygon);
 
@@ -206,14 +215,14 @@
             coords: [43.118498, 131.921068],
             name: "Центральный вход",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-            img: "https://placekitten.com/300/180",
+            img: "https://irecommend.ru/sites/default/files/imagecache/copyright1/user-images/780059/MKC8MtpNa6lublq39RrdA.jpg",
             desc: "Главный вход в парк.",
           },
           {
             coords: [43.118138, 131.921299],
             name: "Детская площадка",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/248/248635.png",
-            img: "https://mrg-online.ru/wp-content/uploads/2022/11/39cd7261ff0f74a4c7ed549ffaa52ece.jpg",
+            img: "https://avatars.mds.yandex.net/get-altay/5459048/2a0000017c83581717147f49babf826836f8/L_height",
             desc: "Песочницы и качели для детей.",
           },
           {
@@ -228,14 +237,14 @@
             coords: [43.118417, 131.921997],
             name: "Туалет",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/75/75310.png",
-            img: "https://placekitten.com/303/180",
+            img: "https://danil-shiryaev.ru/public/uploads/travel/2023/vladivostok/img_4343.jpeg",
             desc: "Общественные туалеты.",
           },
           {
             coords: [43.118421, 131.921866],
             name: "Кофейня",
             iconUrl: "https://cdn-icons-png.flaticon.com/512/1223/1223231.png",
-            img: "https://avatars.mds.yandex.net/get-altay/15608211/2a0000019774cd8e5d4e273494456aa94830/orig",
+            img: "https://n1s1.hsmedia.ru/8c/46/03/8c460364e999190c313d38975fb7edb3/3402x2268_0xusE7flG1_6695509493297327961.jpg",
             desc: "Кофе и десерты.",
           },
         ];
@@ -248,21 +257,15 @@
         const infoDesc = document.getElementById("infoDesc");
         const backBtn = document.getElementById("backBtn");
 
-        places.forEach((place) => {
+        const offcanvasElement = document.getElementById('offcanvasSidebar');
+        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
+
+        places.forEach(place => {
           const placemark = new ymaps.Placemark(
             place.coords,
-            {
-              balloonContentHeader: place.name,
-              balloonContentBody: `<img class="popup-img" src="${place.img}"><p>${place.desc}</p>`,
-            },
-            {
-              iconLayout: "default#image",
-              iconImageHref: place.iconUrl,
-              iconImageSize: [32, 32],
-              iconImageOffset: [-16, -32],
-            }
+            { balloonContentHeader: place.name, balloonContentBody: `<img class="popup-img" src="${place.img}"><p>${place.desc}</p>` },
+            { iconLayout: "default#image", iconImageHref: place.iconUrl, iconImageSize: [32,32], iconImageOffset: [-16,-32] }
           );
-
           map.geoObjects.add(placemark);
 
           const item = document.createElement("div");
@@ -276,6 +279,7 @@
             infoTitle.textContent = place.name;
             infoImg.src = place.img;
             infoDesc.textContent = place.desc;
+            offcanvas.hide();
           };
           placesList.appendChild(item);
         });
