@@ -12,68 +12,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <style>
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        display: flex;
-        flex-direction: column;
-      }
-
-      #map {
-        flex: 1 1 auto;
-        width: 100%;
-      }
-
-      .place-item {
-        padding: 8px;
-        margin: 5px 0;
-        background: white;
-        border-radius: 6px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: background 0.2s;
-      }
-      .place-item:hover {
-        background: #e9ecef;
-      }
-      .place-icon {
-        width: 20px;
-        height: 20px;
-      }
-      .popup-img {
-        width: 100%;
-        max-width: 200px;
-        border-radius: 10px;
-        margin-top: 5px;
-      }
-      #infoFrame {
-        display: none;
-      }
-
-      @media (max-width: 767px) {
-        .offcanvas-fullscreen {
-          width: 100% !important;
-          max-width: 100% !important;
-          height: 100% !important;
-        }
-        .offcanvas .offcanvas-title {
-          font-size: 1.5rem;
-        }
-        .offcanvas-body p,
-        .offcanvas-body button,
-        .place-item {
-          font-size: 1.1rem;
-        }
-      }
-    </style>
+    <link href="style/style-canvas.css" rel="stylesheet" />
   </head>
   <body>
     <button
@@ -87,23 +26,24 @@
     </button>
 
     <div
-      class="offcanvas offcanvas-start offcanvas-fullscreen"
+      class="offcanvas offcanvas-bottom  offcanvas-fullscreen"
       data-bs-scroll="true"
-      data-bs-backdrop="true"
+      data-bs-backdrop="false"
       tabindex="-1"
       id="offcanvasSidebar"
       aria-labelledby="offcanvasSidebarLabel"
     >
       <div class="offcanvas-header">
+        <div id="dragHandle"></div>
         <h5 class="offcanvas-title" id="offcanvasSidebarLabel">
           Точки на карте
         </h5>
-        <button
+        <!-- <button
           type="button"
           class="btn-close text-reset"
           data-bs-dismiss="offcanvas"
           aria-label="Закрыть"
-        ></button>
+        ></button> -->
       </div>
       <div class="offcanvas-body">
         <div id="menuList">
@@ -121,216 +61,7 @@
     <div id="map"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      ymaps.ready(init);
-
-      function init() {
-        const map = new ymaps.Map("map", {
-          center: [43.118136, 131.92137],
-          zoom: 18.5,
-          controls: [],
-        });
-
-        const parkCoords = [
-          [43.118363, 131.92065],
-          [43.118197, 131.920612],
-          [43.117807, 131.921427],
-          [43.117653, 131.921849],
-          [43.117596, 131.922043],
-          [43.117552, 131.92247],
-          [43.117708, 131.923574],
-          [43.118712, 131.923397],
-          [43.118596, 131.92153],
-        ];
-        const parkPolygon = new ymaps.Polygon(
-          [parkCoords],
-          {},
-          {
-            fillColor: "rgba(205, 236, 178, 1)",
-            strokeColor: "#008000",
-            strokeWidth: 2,
-          }
-        );
-        map.geoObjects.add(parkPolygon);
-
-        const paths = [
-          [
-            [43.118401, 131.921592],
-            [43.118401, 131.921701],
-            [43.118383, 131.921859],
-            [43.11835, 131.921965],
-            [43.118348, 131.922104],
-            [43.118469, 131.922475],
-            [43.118532, 131.923038],
-            [43.118563, 131.923235],
-            [43.118653, 131.923313],
-            [43.118713, 131.923368],
-          ],
-          [
-            [43.118559, 131.923236],
-            [43.118517, 131.92325],
-            [43.118465, 131.923243],
-            [43.118399, 131.923263],
-            [43.118378, 131.92325],
-            [43.118358, 131.923272],
-            [43.118331, 131.923273],
-            [43.118282, 131.923224],
-            [43.118211, 131.923181],
-            [43.118176, 131.923132],
-            [43.118053, 131.923052],
-          ],
-          [
-            [43.118559, 131.923236],
-            [43.11839, 131.923205],
-            [43.118353, 131.923124],
-            [43.118312, 131.923043],
-            [43.118293, 131.922964],
-            [43.118247, 131.922922],
-            [43.118183, 131.92288],
-            [43.118173, 131.922807],
-            [43.118181, 131.922748],
-          ],
-        ];
-        paths.forEach((coords) => {
-          const line = new ymaps.Polyline(
-            coords,
-            {},
-            {
-              strokeColor: "rgba(0,0,0,0.6)",
-              strokeWidth: 4,
-              strokeOpacity: 1,
-            }
-          );
-          map.geoObjects.add(line);
-        });
-
-        const kafeCoords = [
-          [43.118482, 131.922037],
-          [43.118418, 131.922037],
-          [43.118421, 131.921826],
-          [43.118483, 131.921829],
-        ];
-        const kafePolygon = new ymaps.Polygon(
-          [kafeCoords],
-          {},
-          {
-            fillColor: "rgba(255,0,0,0.6)",
-            strokeColor: "#FF0000",
-            strokeWidth: 2,
-          }
-        );
-        const lakeCoords = [
-          [43.11836, 131.921635],
-          [43.118251, 131.921661],
-          [43.118252, 131.921689],
-          [43.118292, 131.921737],
-          [43.118334, 131.921767],
-          [43.118354, 131.921748],
-          [43.118363, 131.921642],
-        ];
-        const lakePolygon = new ymaps.Polygon(
-          [lakeCoords],
-          {},
-          {
-            fillColor: "rgba(0,191,255,0.6)",
-            strokeColor: "#ffffff",
-            strokeWidth: 0,
-          }
-        );
-        map.geoObjects.add(kafePolygon);
-        map.geoObjects.add(lakePolygon);
-
-        const places = [
-          {
-            coords: [43.118498, 131.921068],
-            name: "Центральный вход",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
-            img: "https://irecommend.ru/sites/default/files/imagecache/copyright1/user-images/780059/MKC8MtpNa6lublq39RrdA.jpg",
-            desc: "Главный вход в парк.",
-          },
-          {
-            coords: [43.118138, 131.921299],
-            name: "Детская площадка",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/248/248635.png",
-            img: "https://avatars.mds.yandex.net/get-altay/5459048/2a0000017c83581717147f49babf826836f8/L_height",
-            desc: "Песочницы и качели для детей.",
-          },
-          {
-            coords: [43.11796, 131.921685],
-            name: "Фудкорт",
-            iconUrl:
-              "https://cdn-icons-png.flaticon.com/512/17795/17795825.png",
-            img: "https://static.vl.ru/catalog/1752117265283_big_vlru.jpg",
-            desc: "Много вкусной еды.",
-          },
-          {
-            coords: [43.118417, 131.921997],
-            name: "Туалет",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/75/75310.png",
-            img: "https://danil-shiryaev.ru/public/uploads/travel/2023/vladivostok/img_4343.jpeg",
-            desc: "Общественные туалеты.",
-          },
-          {
-            coords: [43.118421, 131.921866],
-            name: "Кофейня",
-            iconUrl: "https://cdn-icons-png.flaticon.com/512/1223/1223231.png",
-            img: "https://n1s1.hsmedia.ru/8c/46/03/8c460364e999190c313d38975fb7edb3/3402x2268_0xusE7flG1_6695509493297327961.jpg",
-            desc: "Кофе и десерты.",
-          },
-        ];
-
-        const placesList = document.getElementById("placesList");
-        const infoFrame = document.getElementById("infoFrame");
-        const menuList = document.getElementById("menuList");
-        const infoTitle = document.getElementById("infoTitle");
-        const infoImg = document.getElementById("infoImg");
-        const infoDesc = document.getElementById("infoDesc");
-        const backBtn = document.getElementById("backBtn");
-
-        const offcanvasElement = document.getElementById("offcanvasSidebar");
-        const offcanvas =
-          bootstrap.Offcanvas.getOrCreateInstance(offcanvasElement);
-
-        places.forEach((place) => {
-          const placemark = new ymaps.Placemark(
-            place.coords,
-            {
-              balloonContentHeader: place.name,
-              balloonContentBody: `<img class="popup-img" src="${place.img}"><p>${place.desc}</p>`,
-            },
-            {
-              iconLayout: "default#image",
-              iconImageHref: place.iconUrl,
-              iconImageSize: [32, 32],
-              iconImageOffset: [-16, -32],
-              balloonOffset: [0, -32],
-              balloonAutoPan: true,
-              hideIconOnBalloonOpen: false 
-            }
-          );
-          map.geoObjects.add(placemark);
-
-          const item = document.createElement("div");
-          item.className = "place-item";
-          item.innerHTML = `<img class="place-icon" src="${place.iconUrl}"> ${place.name}`;
-          item.onclick = () => {
-            map.setCenter(place.coords, 19, { duration: 500 });
-            placemark.balloon.open();
-            menuList.style.display = "none";
-            infoFrame.style.display = "block";
-            infoTitle.textContent = place.name;
-            infoImg.src = place.img;
-            infoDesc.textContent = place.desc;
-            offcanvas.hide();
-          };
-          placesList.appendChild(item);
-        });
-
-        backBtn.onclick = () => {
-          infoFrame.style.display = "none";
-          menuList.style.display = "block";
-        };
-      }
-    </script>
+    <script src="js/map-app.js"></script>
+    <script src="js/offcanvas-touch.js"></script>
   </body>
 </html>
