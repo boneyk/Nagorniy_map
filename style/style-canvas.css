@@ -75,3 +75,8 @@ body {
     transform: translateX(-50%);
     cursor: grab;
 }
+
+.btn__container{
+    display: flex;
+    justify-content: space-evenly;
+}

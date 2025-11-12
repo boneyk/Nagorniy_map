@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
       isDragging = false;
   
   let lastTranslateY = window.innerHeight * 0.5; // Стартовая высота панели: 50vh
-  const handleHeight = 50; // ярлычок снизу
+  const handleHeight = 110; // ярлычок снизу
   const maxTranslateY = window.innerHeight * 0.9 - handleHeight; // максимум: 90vh - ярлычок
   const minTranslateY = 0; // полностью раскрыто (панель вверху)
 

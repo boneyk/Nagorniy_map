@@ -950,7 +950,7 @@ function init() {
       desc: "Главный вход в парк.",
     },
     {
-      coords: [43.118138, 131.921299],
+      coords: [43.118168, 131.92122],
       name: "Детская площадка",
       iconUrl: "https://cdn-icons-png.flaticon.com/512/248/248635.png",
       img: "https://avatars.mds.yandex.net/get-altay/5459048/2a0000017c83581717147f49babf826836f8/L_height",
@@ -967,7 +967,7 @@ function init() {
       coords: [43.118417, 131.921997],
       name: "Туалет",
       iconUrl: "https://cdn-icons-png.flaticon.com/512/75/75310.png",
-      img: "https://danil-shiryaev.ru/public/uploads/travel/2023/vladivostok/img_4343.jpeg",
+      img: "https://static.vl.ru/catalog/1649979218792_big_vlru.jpg",
       desc: "Общественные туалеты.",
     },
     {
@@ -976,6 +976,84 @@ function init() {
       iconUrl: "https://cdn-icons-png.flaticon.com/512/1223/1223231.png",
       img: "https://n1s1.hsmedia.ru/8c/46/03/8c460364e999190c313d38975fb7edb3/3402x2268_0xusE7flG1_6695509493297327961.jpg",
       desc: "Кофе и десерты.",
+    },
+    {
+      coords: [43.117971, 131.922594],
+      name: "Кинотеатр и малая сцена",
+      iconUrl: "img/cinema.png",
+      img: "https://mrg-online.ru/wp-content/uploads/2022/11/%D0%9F%D0%BB%D0%BE%D1%89%D0%B0%D0%B4%D0%BA%D0%B0-1.jpg",
+      desc: "Малая открытая сцена для мероприятий.",
+    },
+    {
+      coords: [43.118285, 131.921688],
+      name: "Озеро",
+      iconUrl: "img/lake.png",
+      img: "https://static.vl.ru/catalog/1649979216672_big_vlru.jpg",
+      desc: "Озеро с черепашками.",
+    },
+
+    {
+      coords: [43.1163, 131.922892],
+      name: "Лесная сцена",
+      iconUrl: "img/stage.png",
+      img: "https://static.vl.ru/catalog/1750805789694_big_vlru.jpg",
+      desc: "Большая сцена для мероприятий.",
+    },
+    {
+      coords: [43.117066, 131.923375],
+      name: "Нагорная кафейня",
+      iconUrl: "img/coffee-cup.png",
+      img: "https://static.vl.ru/catalog/1750805789694_big_vlru.jpg",
+      desc: "Вкусные горячие напитки.",
+    },
+    {
+      coords: [43.116656, 131.923413],
+      name: "Смотровая площадка",
+      iconUrl: "img/binoculars.png",
+      img: "https://s10.stc.yc.kpcdn.net/share/i/12/12691704/wr-960.webp",
+      desc: "Красивый вид на город.",
+    },
+    {
+      coords: [43.117037, 131.923954],
+      name: "Смотровая площадка",
+      iconUrl: "img/binoculars.png",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdJz1SjjY_WMrn3jE1aN1AI9BzIHUDQZ3PvEt49-XwZQJXwbHZN8xisdmjtz1fB0E8LV8&usqp=CAU",
+      desc: "Красивый вид на город.",
+    },
+    {
+      coords: [43.117057, 131.925041],
+      name: "Смотровая площадка",
+      iconUrl: "img/binoculars.png",
+      img: "https://ic.pics.livejournal.com/ivannovikov/20208892/4273344/4273344_original.jpg",
+      desc: "Красивый вид на город.",
+    },
+    {
+      coords: [43.11709, 131.925393],
+      name: "Фудкорт",
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/17795/17795825.png",
+      img: "https://static.vl.ru/catalog/1752117265283_big_vlru.jpg",
+      desc: "Много вкусной еды.",
+    },
+    {
+      coords: [43.117118, 131.924383],
+      name: "Смотровая площадка",
+      iconUrl: "img/binoculars.png",
+      img: "https://ic.pics.livejournal.com/ivannovikov/20208892/4273344/4273344_original.jpg",
+      desc: "Красивый вид на город.",
+    }, 
+    {
+      coords: [43.11754, 131.923933],
+      name: "Грот",
+      iconUrl: "img/mountain-formation.png",
+      img: "https://s09.stc.yc.kpcdn.net/share/i/4/2451972/wr-750.webp",
+      desc: "Арт объект.",
+    },
+    {
+      coords: [43.116376, 131.923294],
+      name: "Парящий мост",
+      iconUrl: "img/bridges.png",
+      img: "https://static.vl.ru/news/1732813089746_default",
+      desc: "Красивый вид на город.",
     },
   ];
 
@@ -1018,7 +1096,6 @@ function init() {
   const baseOfOffcanvas = new bootstrap.Offcanvas(mapOffcanvas);
 
   places.forEach((place) => {
-
     const placemark = new ymaps.Placemark(
       place.coords,
       {
@@ -1045,7 +1122,7 @@ function init() {
 
       // сворачиваем offcanvas до 50vh
       const startY = window.innerHeight * 0.5; // 50vh
-      lastTranslateY = startY; // обновляем переменную в drag-сценарии
+      const lastTranslateY = startY; // обновляем переменную в drag-сценарии
       mapOffcanvas.style.transition = "transform 0.1s ease";
       mapOffcanvas.style.transform = `translateY(${lastTranslateY}px)`;
 
@@ -1057,10 +1134,9 @@ function init() {
       // offcanvas.hide();
     };
     placesList.appendChild(item);
-    map.geoObjects.add(placemark)
+    map.geoObjects.add(placemark);
   });
   baseOfOffcanvas.show();
 
-  map.copyrights.add('© Plyusnina Anastasia');
-
+  map.copyrights.add("© Plyusnina Anastasia");
 }
