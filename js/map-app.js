@@ -1001,7 +1001,7 @@ function init() {
     },
     {
       coords: [43.117066, 131.923375],
-      name: "Нагорная кафейня",
+      name: "Нагорная кофейня",
       iconUrl: "img/coffee-cup.png",
       img: "https://static.vl.ru/catalog/1750805789694_big_vlru.jpg",
       desc: "Вкусные горячие напитки.",

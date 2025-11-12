@@ -79,4 +79,5 @@ body {
 .btn__container{
     display: flex;
     justify-content: space-evenly;
+    margin: 3px;
 }
